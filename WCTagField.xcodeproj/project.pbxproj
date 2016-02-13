@@ -7,8 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		C903B8431C52F2BD008563CF /* Sizeable.swift in Sources */ = {isa = PBXBuildFile; fileRef = C903B8421C52F2BD008563CF /* Sizeable.swift */; };
 		C9368A951C4C576000592AA1 /* SwiftBox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C9368A941C4C576000592AA1 /* SwiftBox.framework */; };
+		C9824DBB1C6F851900502DA4 /* TagTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9824DBA1C6F851900502DA4 /* TagTextField.swift */; };
 		C9C354A21C49CAB800B64791 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9C354A11C49CAB800B64791 /* AppDelegate.swift */; };
 		C9C354A41C49CAB800B64791 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9C354A31C49CAB800B64791 /* ViewController.swift */; };
 		C9C354A71C49CAB800B64791 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C9C354A51C49CAB800B64791 /* Main.storyboard */; };
@@ -18,8 +18,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		C903B8421C52F2BD008563CF /* Sizeable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Sizeable.swift; sourceTree = "<group>"; };
 		C9368A941C4C576000592AA1 /* SwiftBox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftBox.framework; path = ../Carthage/Build/iOS/SwiftBox.framework; sourceTree = "<group>"; };
+		C9824DBA1C6F851900502DA4 /* TagTextField.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TagTextField.swift; sourceTree = "<group>"; };
 		C9C3549E1C49CAB800B64791 /* WCTagField.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = WCTagField.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C9C354A11C49CAB800B64791 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		C9C354A31C49CAB800B64791 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -64,7 +64,7 @@
 				C9C354A11C49CAB800B64791 /* AppDelegate.swift */,
 				C9C354A31C49CAB800B64791 /* ViewController.swift */,
 				C9C354DC1C49CC6500B64791 /* WCTagField.swift */,
-				C903B8421C52F2BD008563CF /* Sizeable.swift */,
+				C9824DBA1C6F851900502DA4 /* TagTextField.swift */,
 				C9C354A51C49CAB800B64791 /* Main.storyboard */,
 				C9C354A81C49CAB800B64791 /* Assets.xcassets */,
 				C9C354AA1C49CAB800B64791 /* LaunchScreen.storyboard */,
@@ -164,9 +164,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				C903B8431C52F2BD008563CF /* Sizeable.swift in Sources */,
 				C9C354A41C49CAB800B64791 /* ViewController.swift in Sources */,
 				C9C354DD1C49CC6500B64791 /* WCTagField.swift in Sources */,
+				C9824DBB1C6F851900502DA4 /* TagTextField.swift in Sources */,
 				C9C354A21C49CAB800B64791 /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
