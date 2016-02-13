@@ -9,6 +9,8 @@
 /* Begin PBXBuildFile section */
 		C9368A951C4C576000592AA1 /* SwiftBox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C9368A941C4C576000592AA1 /* SwiftBox.framework */; };
 		C9824DBB1C6F851900502DA4 /* TagTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9824DBA1C6F851900502DA4 /* TagTextField.swift */; };
+		C9824DBD1C6FB7CC00502DA4 /* TagButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9824DBC1C6FB7CC00502DA4 /* TagButton.swift */; };
+		C9824DBF1C6FC58600502DA4 /* Sizeable.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9824DBE1C6FC58600502DA4 /* Sizeable.swift */; };
 		C9C354A21C49CAB800B64791 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9C354A11C49CAB800B64791 /* AppDelegate.swift */; };
 		C9C354A41C49CAB800B64791 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9C354A31C49CAB800B64791 /* ViewController.swift */; };
 		C9C354A71C49CAB800B64791 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C9C354A51C49CAB800B64791 /* Main.storyboard */; };
@@ -20,6 +22,8 @@
 /* Begin PBXFileReference section */
 		C9368A941C4C576000592AA1 /* SwiftBox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftBox.framework; path = ../Carthage/Build/iOS/SwiftBox.framework; sourceTree = "<group>"; };
 		C9824DBA1C6F851900502DA4 /* TagTextField.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TagTextField.swift; sourceTree = "<group>"; };
+		C9824DBC1C6FB7CC00502DA4 /* TagButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TagButton.swift; sourceTree = "<group>"; };
+		C9824DBE1C6FC58600502DA4 /* Sizeable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Sizeable.swift; sourceTree = "<group>"; };
 		C9C3549E1C49CAB800B64791 /* WCTagField.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = WCTagField.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C9C354A11C49CAB800B64791 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		C9C354A31C49CAB800B64791 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -65,6 +69,8 @@
 				C9C354A31C49CAB800B64791 /* ViewController.swift */,
 				C9C354DC1C49CC6500B64791 /* WCTagField.swift */,
 				C9824DBA1C6F851900502DA4 /* TagTextField.swift */,
+				C9824DBC1C6FB7CC00502DA4 /* TagButton.swift */,
+				C9824DBE1C6FC58600502DA4 /* Sizeable.swift */,
 				C9C354A51C49CAB800B64791 /* Main.storyboard */,
 				C9C354A81C49CAB800B64791 /* Assets.xcassets */,
 				C9C354AA1C49CAB800B64791 /* LaunchScreen.storyboard */,
@@ -164,7 +170,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C9824DBD1C6FB7CC00502DA4 /* TagButton.swift in Sources */,
 				C9C354A41C49CAB800B64791 /* ViewController.swift in Sources */,
+				C9824DBF1C6FC58600502DA4 /* Sizeable.swift in Sources */,
 				C9C354DD1C49CC6500B64791 /* WCTagField.swift in Sources */,
 				C9824DBB1C6F851900502DA4 /* TagTextField.swift in Sources */,
 				C9C354A21C49CAB800B64791 /* AppDelegate.swift in Sources */,

@@ -9,54 +9,10 @@
 import UIKit
 import SwiftBox
 
-struct ButtonStyle {
-    let font: UIFont
-    let textColor: UIColor
-    let selectedTextColor: UIColor
-    let borderWidth: CGFloat
-    let contentInsets: UIEdgeInsets
-    let margin: Edges
-    let roundedCorners: Bool
-    
-    init(font: UIFont = .systemFontOfSize(14), textColor: UIColor = .blueColor(), selectedTextColor: UIColor = .whiteColor(), borderWidth: CGFloat = 1, contentInsets: UIEdgeInsets = UIEdgeInsetsZero, margin: Edges = Edges(), roundedCorners: Bool = true) {
-        self.font = font
-        self.textColor = textColor
-        self.selectedTextColor = selectedTextColor
-        self.borderWidth = borderWidth
-        self.contentInsets = contentInsets
-        self.roundedCorners = roundedCorners
-        self.margin = margin
-    }
-}
-
-struct TextFieldStyle {
-    let font: UIFont
-    let textColor: UIColor
-    let textOffset: UIOffset
-}
-
 struct TagFieldStyle {
-    let buttonStyle: ButtonStyle
-    let textFieldStyle: TextFieldStyle
     let contentInsets: UIEdgeInsets
-}
-
-extension UIButton {
-    func applyStyle(style: ButtonStyle) {
-        setTitleColor(style.textColor, forState: .Normal)
-        setTitleColor(style.selectedTextColor, forState: .Selected)
-        titleLabel?.font = style.font
-        layer.borderWidth = style.borderWidth
-        layer.borderColor = self.tintColor.CGColor
-        self.contentEdgeInsets = style.contentInsets
-    }
-}
-
-extension UITextField {
-    func applyStyle(style: TextFieldStyle) {
-        font = style.font
-        textColor = style.textColor
-    }
+    let itemMargin: UIEdgeInsets
+    let textOffset: UIOffset
 }
 
 extension Edges {
@@ -70,15 +26,23 @@ extension Edges {
 
 class WCTagField : UIView, UITextFieldDelegate {
     
+    typealias TagButtonFactory = String -> UIButton
+    typealias TextFieldFactory = () -> TagTextField
+    
+    var layout: (WCTagField) -> (buttonLayout: [Layout], textFieldLayout: Layout) = WCTagField.tagFieldLayout
+    let tagButtonFactory: TagButtonFactory
+    let textFieldFactory: TextFieldFactory
     let style: TagFieldStyle
     
-    private let textField = TagTextField(frame: CGRectZero)
+    private lazy var textField: TagTextField = {
+        return self.textFieldFactory()
+    }()
     
     private var tagButtons: Array<UIButton> = []
     var tags: Array<String> = [] {
         didSet {
             tagButtons.forEach { self.removeTagButton($0) }
-            tags.forEach { addTagButton(tagButton(style: style.buttonStyle, text: $0)) }
+            tags.forEach { addTagButton(tagButton(text: $0)) }
         }
     }
     
@@ -93,13 +57,11 @@ class WCTagField : UIView, UITextFieldDelegate {
     
     private let gestureRecognizer = UITapGestureRecognizer()
     
-    init(frame: CGRect, style: TagFieldStyle) {
+    init(frame: CGRect, style: TagFieldStyle, tagButtonFactory: TagButtonFactory, textFieldFactory: TextFieldFactory) {
         self.style = style
+        self.tagButtonFactory = tagButtonFactory
+        self.textFieldFactory = textFieldFactory
         super.init(frame: frame)
-        
-        textField.applyStyle(style.textFieldStyle)
-        textField.contentVerticalAlignment = .Center
-        
         
         textField.onBackspace = { [weak self] in
             self?.removeSelectedButton()
@@ -118,43 +80,37 @@ class WCTagField : UIView, UITextFieldDelegate {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func layout(buttons: [UIView], textField: UITextField, parentSize: CGSize) -> (buttonsLayout: [Layout], textFieldLayout: Layout) {
-        
-        let size = { (view: UIView) in view.systemLayoutSizeFittingSize(UILayoutFittingCompressedSize) }
-        
-        let systemSize = size(textField)
-        let offset = style.textFieldStyle.textOffset
-        let margin = self.style.buttonStyle.margin
-        
-        let textNode = Node(size: CGSize(width: systemSize.width+offset.horizontal, height: systemSize.height+offset.vertical), margin: margin)
-        
-        let children = buttons.map { Node(size: size($0), margin: margin) } + [textNode]
-        let parentNode = Node(children: children, direction: .Row , wrap: true, childAlignment: .Center, margin: Edges(edgeInsets: style.contentInsets))
-        let layout = Node(size: parentSize, children: [parentNode]).layout(maxWidth: parentSize.width).children.first!
-        
-        return (Array(layout.children.dropLast()), layout.children.last!)
-        }
-    
     override func layoutSubviews() {
         super.layoutSubviews()
 		
-        let evaluatedLayout = layout(tagButtons, textField: textField, parentSize: bounds.size)
+        let evaluatedLayout = layout(self)
         
-        for (view, layout) in Zip2Sequence(tagButtons, evaluatedLayout.buttonsLayout) {
+        for (view, layout) in Zip2Sequence(tagButtons, evaluatedLayout.buttonLayout) {
             view.frame = layout.frame
-            if self.style.buttonStyle.roundedCorners {
-                view.layer.cornerRadius = CGRectGetHeight(layout.frame)/2
-            }
         }
         textField.frame = evaluatedLayout.textFieldLayout.frame
     }
     
-    func tagButton(style style: ButtonStyle, text: String) -> UIButton {
-        let button = UIButton(type: .System)
-        button.setTitle(text, forState: .Normal)
+    static func tagFieldLayout(tagField: WCTagField) -> (buttonLayout: [Layout], textFieldLayout: Layout) {
+        let textFieldSize = tagField.textField.size()
+        let offset = tagField.style.textOffset
+        let margin = Edges(edgeInsets: tagField.style.itemMargin)
+        let parentSize = tagField.frame.size
+        
+        let textNode = Node(size: CGSize(width: textFieldSize.width+offset.horizontal, height: textFieldSize.height+offset.vertical), margin: margin)
+        
+        let children = tagField.tagButtons.map { Node(size: $0.size(), margin: margin) } + [textNode]
+        let parentNode = Node(children: children, direction: .Row , wrap: true, childAlignment: .Center, margin: Edges(edgeInsets: tagField.style.contentInsets))
+        let layout = Node(size: parentSize, children: [parentNode]).layout(maxWidth: parentSize.width).children.first!
+        
+        return (Array(layout.children.dropLast()), layout.children.last!)
+    }
+
+    // MARK: Tag buttons management
+    
+    func tagButton(text text: String) -> UIButton {
+        let button = tagButtonFactory(text)
         button.addTarget(self, action: "tappedButton:", forControlEvents: .TouchDown)
-        button.clipsToBounds = true
-        button.applyStyle(style)
         return button
     }
     
@@ -208,5 +164,19 @@ class WCTagField : UIView, UITextFieldDelegate {
     @objc func textDidChange() {
         setNeedsLayout()
         layoutIfNeeded()
+    }
+}
+
+// This extension provides some defaults
+extension WCTagField {
+    convenience init() {
+        let textFieldFactory = { TagTextField(frame: CGRectZero) }
+        let tagButtonFactory: String -> UIButton = {
+            let button = UIButton(type: .System)
+            button.setTitle($0, forState: .Normal)
+            return button
+        }
+        let style = TagFieldStyle(contentInsets: UIEdgeInsetsZero, itemMargin: UIEdgeInsetsZero, textOffset: UIOffsetZero)
+        self.init(frame: CGRectZero, style: style, tagButtonFactory: tagButtonFactory, textFieldFactory: textFieldFactory)
     }
 }
